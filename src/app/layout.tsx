@@ -8,6 +8,7 @@ import { BookingProvider } from "@/components/BookingProvider";
 import { UiShellProvider } from "@/components/UiShellProvider";
 import StructuredData from "@/components/StructuredData";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { PortfolioEmbedProvider } from "@/components/PortfolioEmbedProvider";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -62,15 +63,17 @@ export default function RootLayout({
       <body className={`${cormorant.variable} ${inter.variable} font-sans`}>
         <StructuredData />
         <ThemeProvider>
-          <UiShellProvider>
-            <BookingProvider>
-              <SiteNav />
-              <HashScroll />
-              {children}
-              <ModalHost />
-              <AiAssistant />
-            </BookingProvider>
-          </UiShellProvider>
+          <PortfolioEmbedProvider>
+            <UiShellProvider>
+              <BookingProvider>
+                <SiteNav />
+                <HashScroll />
+                {children}
+                <ModalHost />
+                <AiAssistant />
+              </BookingProvider>
+            </UiShellProvider>
+          </PortfolioEmbedProvider>
         </ThemeProvider>
       </body>
     </html>

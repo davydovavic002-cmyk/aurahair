@@ -4,10 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
+import { usePortfolioEmbed } from "@/components/PortfolioEmbedProvider";
 import { NAV_LINKS } from "@/data/content";
 
 export default function SiteNav() {
+  const embedded = usePortfolioEmbed();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  if (embedded) return null;
 
   const closeMenu = () => setMenuOpen(false);
 

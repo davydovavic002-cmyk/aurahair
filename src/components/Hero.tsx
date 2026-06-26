@@ -18,8 +18,10 @@ import {
   type ServiceFilter,
 } from "@/data/content";
 import { fadeUp } from "@/lib/motion";
+import { usePortfolioEmbed } from "@/components/PortfolioEmbedProvider";
 
 export default function Hero() {
+  const embedded = usePortfolioEmbed();
   const { openBooking } = useBooking();
   const [filter, setFilter] = useState<ServiceFilter>("coloring");
   const [query, setQuery] = useState("");
@@ -40,7 +42,11 @@ export default function Hero() {
   const displayMasters = noResults ? [] : filteredMasters;
 
   return (
-    <section className="relative min-h-screen px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
+    <section
+      className={`relative px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10 ${
+        embedded ? "min-h-0" : "min-h-screen"
+      }`}
+    >
       <div className="absolute inset-0 -z-10">
         <Image
           src="/images/lookbook-space.jpg"
@@ -58,7 +64,11 @@ export default function Hero() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="mx-auto flex min-h-[calc(100vh-3rem)] max-w-[1280px] flex-col overflow-hidden rounded-[28px] bg-[var(--hero-panel)] shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:min-h-[calc(100vh-4rem)] sm:rounded-[32px] lg:min-h-[720px] lg:flex-row"
+        className={`mx-auto flex max-w-[1280px] flex-col overflow-hidden rounded-[28px] bg-[var(--hero-panel)] shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:rounded-[32px] lg:min-h-[720px] lg:flex-row ${
+          embedded
+            ? "min-h-[680px]"
+            : "min-h-[calc(100vh-3rem)] sm:min-h-[calc(100vh-4rem)]"
+        }`}
       >
         <div className="flex w-full flex-col border-b border-border lg:w-[38%] lg:border-b-0 lg:border-r">
           <div className="flex items-center justify-between px-5 pt-5 sm:px-6 sm:pt-6">
@@ -76,7 +86,11 @@ export default function Hero() {
             </a>
           </div>
 
-          <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-5 py-4 scrollbar-hide sm:gap-3.5 sm:px-6 sm:py-5 lg:max-h-[calc(100vh-8rem)]">
+          <div
+            className={`flex flex-1 flex-col gap-3 overflow-y-auto px-5 py-4 scrollbar-hide sm:gap-3.5 sm:px-6 sm:py-5 ${
+              embedded ? "lg:max-h-[600px]" : "lg:max-h-[calc(100vh-8rem)]"
+            }`}
+          >
             {noResults ? (
               <p className="py-8 text-center text-sm text-muted">
                 No stylists match your search.

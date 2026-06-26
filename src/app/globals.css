@@ -60,6 +60,14 @@
     background-color: color-mix(in srgb, var(--gold) 30%, transparent);
     color: var(--text);
   }
+
+  html[data-embed="portfolio"] {
+    scrollbar-width: none;
+  }
+
+  html[data-embed="portfolio"]::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer utilities {

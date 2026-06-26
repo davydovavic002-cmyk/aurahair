@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getAiResponse, getInitialMessage } from "@/lib/ai-responses";
 import { useUiShell } from "@/components/UiShellProvider";
+import { usePortfolioEmbed } from "@/components/PortfolioEmbedProvider";
 
 interface Message {
   role: "user" | "assistant";
@@ -18,6 +19,7 @@ const QUICK_PROMPTS = [
 ];
 
 export default function AiAssistant() {
+  const embedded = usePortfolioEmbed();
   const { isAnyOverlayOpen } = useUiShell();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -52,7 +54,7 @@ export default function AiAssistant() {
     }, 600);
   };
 
-  if (isAnyOverlayOpen) return null;
+  if (embedded || isAnyOverlayOpen) return null;
 
   return (
     <>
