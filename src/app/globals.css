@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #FAF7F2;
+    --bg-elevated: #FFFFFF;
+    --bg-muted: #F3EDE4;
+    --text: #1A1410;
+    --text-muted: #6B5E54;
+    --text-dim: #9A8E84;
+    --border: rgba(26, 20, 16, 0.08);
+    --border-strong: rgba(26, 20, 16, 0.14);
+    --bordeaux: #5C2135;
+    --bordeaux-soft: rgba(92, 33, 53, 0.08);
+    --gold: #A68B5B;
+    --gold-soft: rgba(166, 139, 91, 0.12);
+    --card: rgba(255, 255, 255, 0.7);
+    --overlay: rgba(26, 20, 16, 0.45);
+    --drawer: #FAF7F2;
+    --invert: #1A1410;
+    --invert-text: #FAF7F2;
+    --hero-panel: #FAF7F2;
+  }
+
+  [data-theme="dark"] {
+    --bg: #0A0908;
+    --bg-elevated: #141110;
+    --bg-muted: #1C1815;
+    --text: #F0EBE3;
+    --text-muted: #A89E94;
+    --text-dim: #6B635C;
+    --border: rgba(240, 235, 227, 0.07);
+    --border-strong: rgba(240, 235, 227, 0.12);
+    --bordeaux: #9E4A63;
+    --bordeaux-soft: rgba(158, 74, 99, 0.12);
+    --gold: #C9A961;
+    --gold-soft: rgba(201, 169, 97, 0.1);
+    --card: rgba(20, 17, 16, 0.85);
+    --overlay: rgba(0, 0, 0, 0.65);
+    --drawer: #141110;
+    --invert: #F0EBE3;
+    --invert-text: #0A0908;
+    --hero-panel: #141110;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    @apply antialiased transition-colors duration-500;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--gold) 30%, transparent);
+    color: var(--text);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 45s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee {
+      animation: none;
+    }
+  }
+}
