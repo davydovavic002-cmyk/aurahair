@@ -118,8 +118,10 @@ export default function Hero() {
             匠
           </div>
 
-          {!embedded && (
-            <div className="flex items-start justify-between gap-4">
+          <div
+            className={`flex items-start gap-4 ${embedded ? "justify-end" : "justify-between"}`}
+          >
+            {!embedded && (
               <nav
                 className="hidden flex-wrap gap-x-6 gap-y-2 sm:flex"
                 aria-label="Main navigation"
@@ -134,9 +136,9 @@ export default function Hero() {
                   </a>
                 ))}
               </nav>
-              <ThemeToggle className="hidden sm:flex" />
-            </div>
-          )}
+            )}
+            <ThemeToggle className={embedded ? "flex shrink-0" : "hidden sm:flex"} />
+          </div>
 
           <div className="flex flex-1 flex-col items-center justify-center text-center">
             <motion.div
