@@ -56,7 +56,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('aura-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}else{document.documentElement.setAttribute('data-theme',window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}}catch(e){}})()`,
+            __html: `(function(){try{var p=new URLSearchParams(location.search);if(p.get('embed')==='portfolio'){document.documentElement.setAttribute('data-embed','portfolio')}var t=localStorage.getItem('aura-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}else{document.documentElement.setAttribute('data-theme',window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}}catch(e){}})()`,
           }}
         />
       </head>

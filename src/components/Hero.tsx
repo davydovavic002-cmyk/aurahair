@@ -64,10 +64,10 @@ export default function Hero() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className={`mx-auto flex max-w-[1280px] flex-col overflow-hidden rounded-[28px] bg-[var(--hero-panel)] shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:rounded-[32px] lg:min-h-[720px] lg:flex-row ${
+        className={`mx-auto flex max-w-[1280px] flex-col overflow-hidden rounded-[28px] bg-[var(--hero-panel)] shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:rounded-[32px] lg:flex-row ${
           embedded
-            ? "min-h-[680px]"
-            : "min-h-[calc(100vh-3rem)] sm:min-h-[calc(100vh-4rem)]"
+            ? "min-h-[680px] lg:min-h-0 lg:aspect-[16/10] lg:max-h-[720px]"
+            : "min-h-[calc(100vh-3rem)] sm:min-h-[calc(100vh-4rem)] lg:min-h-[720px]"
         }`}
       >
         <div className="flex w-full flex-col border-b border-border lg:w-[38%] lg:border-b-0 lg:border-r">
@@ -118,23 +118,25 @@ export default function Hero() {
             匠
           </div>
 
-          <div className="flex items-start justify-between gap-4">
-            <nav
-              className="hidden flex-wrap gap-x-6 gap-y-2 sm:flex"
-              aria-label="Main navigation"
-            >
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted transition-colors hover:text-foreground"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-            <ThemeToggle className="hidden sm:flex" />
-          </div>
+          {!embedded && (
+            <div className="flex items-start justify-between gap-4">
+              <nav
+                className="hidden flex-wrap gap-x-6 gap-y-2 sm:flex"
+                aria-label="Main navigation"
+              >
+                {NAV_LINKS.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted transition-colors hover:text-foreground"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+              <ThemeToggle className="hidden sm:flex" />
+            </div>
+          )}
 
           <div className="flex flex-1 flex-col items-center justify-center text-center">
             <motion.div

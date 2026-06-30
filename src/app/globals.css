@@ -61,6 +61,20 @@
     color: var(--text);
   }
 
+  html[data-embed="portfolio"],
+  html[data-embed="portfolio"] body {
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: visible;
+  }
+
+  html[data-embed="portfolio"] .min-h-screen,
+  html[data-embed="portfolio"] [class*="min-h-screen"],
+  html[data-embed="portfolio"] [class*="100vh"] {
+    min-height: auto !important;
+    height: auto !important;
+  }
+
   html[data-embed="portfolio"] {
     scrollbar-width: none;
   }

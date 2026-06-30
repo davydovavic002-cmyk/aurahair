@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  createContext,
-  Suspense,
-  useContext,
-  useEffect,
-  type ReactNode,
-} from "react";
+import { createContext, Suspense, useContext, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
+import PortfolioEmbedBridge from "@/components/PortfolioEmbedBridge";
 
 const PortfolioEmbedContext = createContext(false);
 
@@ -19,15 +14,10 @@ function PortfolioEmbedProviderInner({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams();
   const embedded = searchParams.get("embed") === "portfolio";
 
-  useEffect(() => {
-    if (!embedded) return;
-    document.documentElement.setAttribute("data-embed", "portfolio");
-    return () => document.documentElement.removeAttribute("data-embed");
-  }, [embedded]);
-
   return (
     <PortfolioEmbedContext.Provider value={embedded}>
       {children}
+      {embedded ? <PortfolioEmbedBridge /> : null}
     </PortfolioEmbedContext.Provider>
   );
 }

@@ -4,6 +4,20 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value:
+              "frame-ancestors 'self' https://neostudio.space https://*.neostudio.space",
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       { source: "/services", destination: "/#modal-menu", permanent: false },
