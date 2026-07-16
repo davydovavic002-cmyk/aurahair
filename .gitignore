@@ -30,6 +30,11 @@ yarn-error.log*
 
 # env files
 .env*.local
+.env
+
+# local salon database
+/data/*.db
+/data/*.db-*
 
 # typescript
 *.tsbuildinfo

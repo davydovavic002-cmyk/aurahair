@@ -8,21 +8,31 @@
     "dev:clean": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\" && next dev -p 3323",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen:images": "node scripts/gen-images.mjs",
+    "generate:photos": "node scripts/generate-photos.mjs",
+    "deploy:photos": "node scripts/deploy-local-photos.mjs",
+    "install:photos": "node scripts/install-generated-photos.mjs",
+    "photos:all": "node scripts/deploy-local-photos.mjs && node scripts/install-generated-photos.mjs"
   },
   "dependencies": {
+    "better-sqlite3": "^12.11.1",
     "framer-motion": "^11.15.0",
+    "lucide-react": "^1.24.0",
     "next": "^15.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "eslint": "^9.16.0",
     "eslint-config-next": "^15.1.0",
     "postcss": "^8.4.49",
+    "sharp": "^0.35.3",
     "tailwindcss": "^3.4.16",
     "typescript": "^5.7.2"
   }

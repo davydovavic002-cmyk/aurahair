@@ -30,6 +30,26 @@ const config: Config = {
         display: ["var(--font-cormorant)", "Georgia", "serif"],
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
+      fontSize: {
+        label: ["var(--text-label)", { letterSpacing: "var(--tracking-label)", lineHeight: "1.4" }],
+        "label-sm": ["var(--text-label-sm)", { letterSpacing: "var(--tracking-label)", lineHeight: "1.4" }],
+        "display-hero": ["var(--text-display-hero)", { lineHeight: "1" }],
+      },
+      borderRadius: {
+        sm: "var(--radius-sm)",
+        md: "var(--radius-md)",
+        lg: "var(--radius-lg)",
+        full: "var(--radius-full)",
+      },
+      boxShadow: {
+        card: "var(--shadow-card)",
+        elevated: "var(--shadow-elevated)",
+        fab: "var(--shadow-fab)",
+      },
+      letterSpacing: {
+        label: "var(--tracking-label)",
+        "label-wide": "var(--tracking-label-wide)",
+      },
       maxWidth: {
         content: "680px",
         wide: "1120px",

@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getAiResponse, getInitialMessage } from "@/lib/ai-responses";
+import { Sparkles, X, Send, Loader2 } from "lucide-react";
+import { getInitialMessage } from "@/lib/salon-agent-shared";
 import { useUiShell } from "@/components/UiShellProvider";
 import { usePortfolioEmbed } from "@/components/PortfolioEmbedProvider";
+import IconButton from "@/components/ui/IconButton";
 
 interface Message {
   role: "user" | "assistant";
@@ -12,11 +14,26 @@ interface Message {
 }
 
 const QUICK_PROMPTS = [
-  "How do I book?",
+  "What slots next Saturday?",
   "Service prices",
+  "Book Yuki Tuesday 10:00",
   "Opening hours",
-  "Visit us",
 ];
+
+function TypingIndicator() {
+  return (
+    <div className="mr-auto flex gap-1 rounded-xl border border-border bg-bg-muted px-4 py-3">
+      {[0, 1, 2].map((i) => (
+        <motion.span
+          key={i}
+          className="h-1.5 w-1.5 rounded-full bg-dim"
+          animate={{ opacity: [0.3, 1, 0.3] }}
+          transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function AiAssistant() {
   const embedded = usePortfolioEmbed();
@@ -26,6 +43,10 @@ export default function AiAssistant() {
   const [messages, setMessages] = useState<Message[]>([getInitialMessage()]);
   const [typing, setTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const sessionId = useMemo(
+    () => `web-${Math.random().toString(36).slice(2, 10)}`,
+    [],
+  );
 
   useEffect(() => {
     if (isAnyOverlayOpen) setOpen(false);
@@ -37,21 +58,43 @@ export default function AiAssistant() {
     }
   }, [messages, typing]);
 
-  const sendMessage = (text: string) => {
+  const sendMessage = async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || typing) return;
 
-    setMessages((prev) => [...prev, { role: "user", text: trimmed }]);
+    const nextMessages: Message[] = [
+      ...messages,
+      { role: "user", text: trimmed },
+    ];
+    setMessages(nextMessages);
     setInput("");
     setTyping(true);
 
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/ai/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: nextMessages, sessionId }),
+      });
+      const data = await res.json();
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", text: getAiResponse(trimmed) },
+        {
+          role: "assistant",
+          text: data.text ?? data.error ?? "Something went wrong.",
+        },
       ]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          text: "I couldn't reach the salon desk just now. Please try again.",
+        },
+      ]);
+    } finally {
       setTyping(false);
-    }, 600);
+    }
   };
 
   if (embedded || isAnyOverlayOpen) return null;
@@ -65,23 +108,18 @@ export default function AiAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-24 right-5 z-50 flex w-[calc(100vw-2.5rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-border bg-drawer shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:right-8"
+            className="fixed bottom-24 right-5 z-50 flex w-[calc(100vw-2.5rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-border bg-drawer shadow-elevated sm:right-8"
           >
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-gold">
-                  Concierge
+                <p className="text-label text-gold">Concierge</p>
+                <p className="font-display text-sm text-foreground">
+                  Salon Guide · live desk
                 </p>
-                <p className="font-display text-sm text-foreground">Salon Guide</p>
               </div>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="flex h-7 w-7 items-center justify-center text-muted transition-colors hover:text-foreground"
-                aria-label="Close assistant"
-              >
-                ✕
-              </button>
+              <IconButton size="sm" bordered={false} onClick={() => setOpen(false)} aria-label="Close assistant">
+                <X className="h-4 w-4" />
+              </IconButton>
             </div>
 
             <div
@@ -100,11 +138,7 @@ export default function AiAssistant() {
                   {msg.text}
                 </div>
               ))}
-              {typing && (
-                <div className="mr-auto rounded-xl border border-border bg-bg-muted px-3 py-2 text-xs text-dim">
-                  ···
-                </div>
-              )}
+              {typing && <TypingIndicator />}
             </div>
 
             <div className="flex gap-1.5 overflow-x-auto border-t border-border px-4 py-2 scrollbar-hide">
@@ -113,7 +147,7 @@ export default function AiAssistant() {
                   key={prompt}
                   type="button"
                   onClick={() => sendMessage(prompt)}
-                  className="shrink-0 rounded-full border border-border px-3 py-1 text-[10px] uppercase tracking-[0.12em] text-dim transition-colors hover:border-bordeaux/30 hover:text-foreground"
+                  className="focus-ring shrink-0 rounded-full border border-border px-3 py-1 text-label-sm uppercase tracking-[0.12em] text-dim transition-colors hover:border-bordeaux/30 hover:text-foreground"
                 >
                   {prompt}
                 </button>
@@ -123,7 +157,7 @@ export default function AiAssistant() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                sendMessage(input);
+                void sendMessage(input);
               }}
               className="flex border-t border-border"
             >
@@ -131,16 +165,20 @@ export default function AiAssistant() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about services, booking..."
-                className="flex-1 bg-transparent px-4 py-3 text-sm text-foreground placeholder:text-dim focus:outline-none"
+                placeholder="Ask or book a stylist…"
+                className="focus-ring flex-1 bg-transparent px-4 py-3 text-sm text-foreground placeholder:text-dim"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || typing}
-                className="px-4 text-sm text-bordeaux transition-opacity disabled:opacity-30"
+                className="focus-ring px-4 text-bordeaux transition-opacity disabled:opacity-30"
                 aria-label="Send message"
               >
-                →
+                {typing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
               </button>
             </form>
           </motion.div>
@@ -152,13 +190,13 @@ export default function AiAssistant() {
         onClick={() => setOpen((v) => !v)}
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.96 }}
-        className="fixed bottom-6 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-bordeaux text-white shadow-[0_8px_32px_rgba(92,33,53,0.35)] sm:right-8"
+        className="focus-ring fixed bottom-6 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-bordeaux text-white shadow-fab sm:right-8"
         aria-label={open ? "Close salon guide" : "Open salon guide"}
       >
         {open ? (
-          <span className="text-lg">✕</span>
+          <X className="h-5 w-5" />
         ) : (
-          <span className="font-display text-xl">✦</span>
+          <Sparkles className="h-5 w-5" />
         )}
       </motion.button>
     </>

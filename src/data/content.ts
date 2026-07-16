@@ -20,6 +20,10 @@ export interface HotSlot {
   time: string;
   stylist: string;
   available: boolean;
+  /** Salon-db master id */
+  masterId?: string;
+  /** ISO date YYYY-MM-DD from live inventory */
+  date?: string;
 }
 
 export interface Master {
@@ -50,6 +54,29 @@ export interface Service {
   price: string;
   description: string;
   featured?: boolean;
+  image?: string;
+}
+
+export interface LookbookItem {
+  id: string;
+  image: string;
+  caption: string;
+  technique: string;
+  stylist?: string;
+  featured?: boolean;
+}
+
+export interface Testimonial {
+  id: string;
+  quote: string;
+  name: string;
+  service: string;
+}
+
+export interface TimelineEntry {
+  year: string;
+  title: string;
+  description: string;
 }
 
 export interface SalonInfo {
@@ -124,8 +151,8 @@ export const MASTERS: Master[] = [
     badge: "Master",
     specialty: "Couture Blonde · AirTouch",
     categories: ["coloring", "treatments"],
-    bgImage: "/images/lookbook-process.jpg",
-    avatar: "/images/lookbook-platinum.jpg",
+    bgImage: "/images/masters/m1-work.jpg",
+    avatar: "/images/masters/m1-portrait.jpg",
     bio: "Trained in Tokyo and Paris. Pioneer of AirTouch technique in Southeast Asia.",
     experience: "18 years",
   },
@@ -136,8 +163,8 @@ export const MASTERS: Master[] = [
     badge: "Expert",
     specialty: "Platinum · Toner Architecture",
     categories: ["coloring", "care"],
-    bgImage: "/images/lookbook-texture.jpg",
-    avatar: "/images/hero.jpg",
+    bgImage: "/images/masters/m2-work.jpg",
+    avatar: "/images/masters/m2-portrait.jpg",
     bio: "Specialist in cool-toned blondes and corrective color for Asian hair textures.",
     experience: "12 years",
   },
@@ -148,8 +175,8 @@ export const MASTERS: Master[] = [
     badge: "Senior",
     specialty: "Precision Cut · Editorial",
     categories: ["cuts", "styling"],
-    bgImage: "/images/lookbook-cut.jpg",
-    avatar: "/images/lookbook-platinum.jpg",
+    bgImage: "/images/masters/m3-work.jpg",
+    avatar: "/images/masters/m3-portrait.jpg",
     bio: "Architectural cuts with a soft, wearable finish for tropical climates.",
     experience: "14 years",
   },
@@ -160,8 +187,8 @@ export const MASTERS: Master[] = [
     badge: "Senior",
     specialty: "Textured Crop · Beard Design",
     categories: ["cuts", "styling"],
-    bgImage: "/images/lookbook-space.jpg",
-    avatar: "/images/lookbook-process.jpg",
+    bgImage: "/images/masters/m4-work.jpg",
+    avatar: "/images/masters/m4-portrait.jpg",
     bio: "Modern men's grooming with clean lines and effortless styling.",
     experience: "10 years",
   },
@@ -172,8 +199,8 @@ export const MASTERS: Master[] = [
     badge: "Expert",
     specialty: "Scalp Ritual · Bond Repair",
     categories: ["care", "treatments"],
-    bgImage: "/images/lookbook-texture.jpg",
-    avatar: "/images/lookbook-cut.jpg",
+    bgImage: "/images/masters/m5-work.jpg",
+    avatar: "/images/masters/m5-portrait.jpg",
     bio: "Certified in K-beauty scalp therapy and keratin bond restoration.",
     experience: "9 years",
   },
@@ -184,8 +211,8 @@ export const MASTERS: Master[] = [
     badge: "Artist",
     specialty: "Sun-Kissed Balayage · Gloss",
     categories: ["coloring", "styling"],
-    bgImage: "/images/lookbook-platinum.jpg",
-    avatar: "/images/lookbook-texture.jpg",
+    bgImage: "/images/masters/m6-work.jpg",
+    avatar: "/images/masters/m6-portrait.jpg",
     bio: "Hand-painted dimension tailored for Singapore's light and lifestyle.",
     experience: "8 years",
   },
@@ -196,8 +223,8 @@ export const MASTERS: Master[] = [
     badge: "Senior",
     specialty: "Bridal Updo · Event Styling",
     categories: ["styling", "cuts"],
-    bgImage: "/images/hero.jpg",
-    avatar: "/images/lookbook-space.jpg",
+    bgImage: "/images/masters/m7-work.jpg",
+    avatar: "/images/masters/m7-portrait.jpg",
     bio: "From intimate ceremonies to gala evenings — styles that hold in humidity.",
     experience: "11 years",
   },
@@ -208,8 +235,8 @@ export const MASTERS: Master[] = [
     badge: "Rising",
     specialty: "Toner Refresh · Gloss Treatments",
     categories: ["coloring", "care"],
-    bgImage: "/images/lookbook-process.jpg",
-    avatar: "/images/hero.jpg",
+    bgImage: "/images/masters/m8-work.jpg",
+    avatar: "/images/masters/m8-portrait.jpg",
     bio: "Meticulous toning and maintenance color under Yuki's mentorship.",
     experience: "4 years",
   },
@@ -224,6 +251,7 @@ export const SERVICES: Service[] = [
     price: "Complimentary",
     description: "In-depth hair analysis, lifestyle review, and personalised plan.",
     featured: true,
+    image: "/images/services/consultation.jpg",
   },
   {
     id: "s2",
@@ -233,6 +261,7 @@ export const SERVICES: Service[] = [
     price: "From S$680",
     description: "Seamless, lived-in blonde with zero harsh lines. Includes gloss finish.",
     featured: true,
+    image: "/images/services/airtouch.jpg",
   },
   {
     id: "s3",
@@ -242,6 +271,7 @@ export const SERVICES: Service[] = [
     price: "From S$520",
     description: "Hand-painted highlights for natural dimension and movement.",
     featured: true,
+    image: "/images/services/balayage.jpg",
   },
   {
     id: "s4",
@@ -251,6 +281,7 @@ export const SERVICES: Service[] = [
     price: "From S$850",
     description: "Multi-session lightening with bond protection and toner architecture.",
     featured: true,
+    image: "/images/services/platinum.jpg",
   },
   {
     id: "s5",
@@ -276,6 +307,7 @@ export const SERVICES: Service[] = [
     price: "From S$95",
     description: "Architectural shape with bespoke finish for your hair type.",
     featured: true,
+    image: "/images/services/precision-cut.jpg",
   },
   {
     id: "s8",
@@ -325,6 +357,7 @@ export const SERVICES: Service[] = [
     price: "From S$85",
     description: "Keratin-infused gloss with deep hydration for dry, dull hair.",
     featured: true,
+    image: "/images/services/gloss.jpg",
   },
   {
     id: "s14",
@@ -334,6 +367,7 @@ export const SERVICES: Service[] = [
     price: "From S$110",
     description: "Japanese-inspired scalp cleanse, massage, and nourishing mask.",
     featured: true,
+    image: "/images/services/scalp-ritual.jpg",
   },
   {
     id: "s15",
@@ -426,6 +460,7 @@ export const HOT_SLOTS: HotSlot[] = [
     day: "Tuesday",
     time: "10:00",
     stylist: "Yuki T.",
+    masterId: "m1",
     available: true,
   },
   {
@@ -433,6 +468,7 @@ export const HOT_SLOTS: HotSlot[] = [
     day: "Wednesday",
     time: "14:30",
     stylist: "Priya S.",
+    masterId: "m2",
     available: true,
   },
   {
@@ -440,6 +476,7 @@ export const HOT_SLOTS: HotSlot[] = [
     day: "Thursday",
     time: "11:00",
     stylist: "Mei Lin C.",
+    masterId: "m5",
     available: true,
   },
   {
@@ -447,6 +484,7 @@ export const HOT_SLOTS: HotSlot[] = [
     day: "Friday",
     time: "15:00",
     stylist: "Sofia N.",
+    masterId: "m6",
     available: true,
   },
   {
@@ -454,6 +492,7 @@ export const HOT_SLOTS: HotSlot[] = [
     day: "Saturday",
     time: "09:30",
     stylist: "Yuki T.",
+    masterId: "m1",
     available: false,
   },
   {
@@ -461,12 +500,15 @@ export const HOT_SLOTS: HotSlot[] = [
     day: "Saturday",
     time: "13:00",
     stylist: "James L.",
+    masterId: "m4",
     available: true,
   },
 ];
 
 export const ABOUT_STORY = {
   headline: "Craft rooted in ritual.",
+  studioImage: "/images/space/studio-interior.jpg",
+  consultationImage: "/images/space/consultation.jpg",
   paragraphs: [
     "AURA was founded in Singapore with a simple belief: exceptional hair care is a form of hospitality. Our name draws from the Japanese concept of presence — the quiet confidence that comes when every detail is considered.",
     "In our Dempsey Hill studio, Eastern scalp rituals meet European color science. Each visit begins with tea, a consultation, and a plan tailored to your hair, climate, and lifestyle.",
@@ -487,6 +529,114 @@ export const ABOUT_STORY = {
     },
   ],
 };
+
+export const ABOUT_TIMELINE: TimelineEntry[] = [
+  {
+    year: "2018",
+    title: "Founded in Dempsey Hill",
+    description: "AURA opens as a private atelier with four suites and a tea ritual for every guest.",
+  },
+  {
+    year: "2020",
+    title: "AirTouch certification",
+    description: "Yuki Tanaka brings the AirTouch technique to Singapore — first salon in the region.",
+  },
+  {
+    year: "2023",
+    title: "Vogue Singapore feature",
+    description: "Named among the city's best colour destinations for Asian hair textures.",
+  },
+  {
+    year: "2025",
+    title: "Eight private suites",
+    description: "Expanded studio with dedicated bridal suite and scalp ritual room.",
+  },
+];
+
+export const LOOKBOOK_ITEMS: LookbookItem[] = [
+  {
+    id: "lb1",
+    image: "/images/lookbook/platinum-glow.jpg",
+    caption: "Lived-in platinum",
+    technique: "AirTouch · Gloss",
+    stylist: "Yuki Tanaka",
+    featured: true,
+  },
+  {
+    id: "lb2",
+    image: "/images/lookbook/balayage-sun.jpg",
+    caption: "Sun-kissed dimension",
+    technique: "Balayage",
+    stylist: "Sofia Nakamura",
+  },
+  {
+    id: "lb3",
+    image: "/images/lookbook/precision-bob.jpg",
+    caption: "Architectural bob",
+    technique: "Precision Cut",
+    stylist: "Elena Wong",
+  },
+  {
+    id: "lb4",
+    image: "/images/lookbook/scalp-ritual.jpg",
+    caption: "Scalp renewal",
+    technique: "Detox Ritual",
+    stylist: "Mei Lin Chen",
+  },
+  {
+    id: "lb5",
+    image: "/images/lookbook/editorial-updo.jpg",
+    caption: "Evening updo",
+    technique: "Event Styling",
+    stylist: "Amara Singh",
+    featured: true,
+  },
+  {
+    id: "lb6",
+    image: "/images/lookbook/mens-texture.jpg",
+    caption: "Textured crop",
+    technique: "Men's Grooming",
+    stylist: "James Lim",
+  },
+  {
+    id: "lb7",
+    image: "/images/lookbook/gloss-finish.jpg",
+    caption: "Mirror gloss",
+    technique: "Signature Gloss",
+    stylist: "Priya Sharma",
+  },
+  {
+    id: "lb8",
+    image: "/images/lookbook/colour-process.jpg",
+    caption: "Colour architecture",
+    technique: "Platinum",
+    stylist: "Yuki Tanaka",
+  },
+];
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    id: "t1",
+    quote:
+      "The consultation alone changed how I think about my hair. Yuki understood my texture immediately — the AirTouch result is exactly what I wanted.",
+    name: "Sarah L.",
+    service: "AirTouch Blonde · Yuki Tanaka",
+  },
+  {
+    id: "t2",
+    quote:
+      "I've tried every salon in Orchard. AURA is the only place that gets cool blonde right on Asian hair without damage.",
+    name: "Michelle K.",
+    service: "Platinum Transformation · Priya Sharma",
+  },
+  {
+    id: "t3",
+    quote:
+      "The scalp ritual is unlike anything else in Singapore. I leave feeling like I've been to a spa, not just a salon.",
+    name: "Daniel T.",
+    service: "Scalp Detox Ritual · Mei Lin Chen",
+  },
+];
 
 export const PRESS_MENTIONS = [
   "Vogue Singapore",

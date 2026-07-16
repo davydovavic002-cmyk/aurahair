@@ -1,4 +1,6 @@
 import FooterNewsletter from "@/components/FooterNewsletter";
+import AuraWordmark from "@/components/AuraWordmark";
+import { Sparkles } from "lucide-react";
 import {
   FOOTER_LEGAL,
   FOOTER_SOCIAL,
@@ -49,9 +51,7 @@ export default function SiteFooter() {
 
       <div className="mt-14 grid gap-10 border-t border-border pt-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
         <div className="lg:col-span-1">
-          <p className="font-display text-2xl tracking-wide text-foreground">
-            AURA
-          </p>
+          <AuraWordmark className="text-2xl text-foreground" />
           <p className="mt-2 text-xs italic text-dim">{STUDIO_TAGLINE_ASIA}</p>
           <p className="mt-4 text-sm leading-relaxed text-muted">
             A private hair atelier in Dempsey Hill — precision colour, ritual
@@ -148,7 +148,7 @@ export default function SiteFooter() {
 
       <div className="mt-14 text-center">
         <div className="mx-auto h-px w-full max-w-md bg-border" />
-        <span className="mt-8 inline-block text-lg text-gold">✦</span>
+        <Sparkles className="mx-auto mt-8 h-5 w-5 text-gold" aria-hidden />
         <p className="mt-4 font-display text-sm tracking-[0.15em] text-foreground">
           AURA HAIR SPACE
         </p>

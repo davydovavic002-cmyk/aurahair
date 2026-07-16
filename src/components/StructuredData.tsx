@@ -10,7 +10,7 @@ export default function StructuredData() {
     url: "https://aurahair.sg",
     telephone: SALON_INFO.phone,
     email: SALON_INFO.email,
-    image: "/images/lookbook-space.jpg",
+    image: "/images/space/studio-interior.jpg",
     priceRange: "$$$",
     address: {
       "@type": "PostalAddress",

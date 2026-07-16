@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { Sparkles } from "lucide-react";
 import {
   SERVICE_FILTERS,
   SERVICES,
   MASTERS,
   ABOUT_STORY,
+  ABOUT_TIMELINE,
   OPENING_HOURS,
   SALON_INFO,
   PRIVACY_POLICY,
@@ -14,6 +16,9 @@ import {
   type PolicySection,
 } from "@/data/content";
 import { useBooking } from "@/components/BookingProvider";
+import Button from "@/components/ui/Button";
+import Badge from "@/components/ui/Badge";
+import Label from "@/components/ui/Label";
 import { CARD_HOVER, ROW_HOVER, BOOK_CTA } from "@/lib/interactive";
 
 export function ServicesModalContent() {
@@ -37,9 +42,7 @@ export function ServicesModalContent() {
           <section key={filter.id}>
             <div className="mb-4 flex items-center gap-2">
               <div className="h-px w-4 bg-gold" />
-              <h3 className="text-[10px] font-medium uppercase tracking-[0.25em] text-dim">
-                {filter.label}
-              </h3>
+              <Label>{filter.label}</Label>
             </div>
 
             <div className="divide-y divide-border border border-border">
@@ -56,11 +59,7 @@ export function ServicesModalContent() {
                       <h4 className="font-display text-lg text-foreground transition-colors group-hover:text-bordeaux">
                         {service.name}
                       </h4>
-                      {service.featured && (
-                        <span className="rounded-full bg-gold-soft px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.12em] text-gold">
-                          Signature
-                        </span>
-                      )}
+                      {service.featured && <Badge>Signature</Badge>}
                     </div>
                     <p className="mt-1 text-xs text-muted sm:text-sm">
                       {service.description}
@@ -149,10 +148,36 @@ export function AboutModalContent() {
 
   return (
     <div>
-      <div className="space-y-5 text-sm leading-relaxed text-muted">
-        {ABOUT_STORY.paragraphs.map((paragraph) => (
-          <p key={paragraph.slice(0, 24)}>{paragraph}</p>
-        ))}
+      <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+        <div className="relative aspect-[4/3] overflow-hidden border border-border bg-bg-muted lg:aspect-auto lg:min-h-[320px]">
+          <Image
+            src={ABOUT_STORY.studioImage}
+            alt="AURA studio interior"
+            fill
+            unoptimized
+            sizes="(max-width: 1024px) 100vw, 480px"
+            className="object-cover"
+          />
+        </div>
+        <div className="space-y-5 text-sm leading-relaxed text-muted">
+          {ABOUT_STORY.paragraphs.map((paragraph) => (
+            <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-10">
+        <p className="text-label text-dim">Our journey</p>
+        <div className="mt-5 space-y-0 border-l border-border pl-6">
+          {ABOUT_TIMELINE.map((entry) => (
+            <div key={entry.year} className="relative pb-8 last:pb-0">
+              <span className="absolute -left-[calc(1.5rem+5px)] top-1 h-2.5 w-2.5 rounded-full border-2 border-gold bg-bg" />
+              <p className="text-label text-gold">{entry.year}</p>
+              <p className="mt-1 font-display text-lg text-foreground">{entry.title}</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted">{entry.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-3">
@@ -169,21 +194,17 @@ export function AboutModalContent() {
         ))}
       </div>
 
-      <div className="mt-10 border border-border bg-bg-muted p-5 text-center">
-        <span className="text-lg text-gold">✦</span>
+      <div className="mt-10 border border-border bg-bg-muted p-5 text-center sm:p-6">
+        <Sparkles className="mx-auto h-5 w-5 text-gold" aria-hidden />
         <p className="mt-3 font-display text-lg text-foreground">
           By appointment only
         </p>
         <p className="mt-2 text-xs text-dim">
           Every visit is unhurried — typically 2–3 hours for color, 1 hour for cuts.
         </p>
-        <button
-          type="button"
-          onClick={() => openBooking()}
-          className="mt-5 border border-bordeaux/30 bg-bordeaux px-6 py-3 text-[10px] font-medium uppercase tracking-[0.2em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-bordeaux/90 hover:shadow-[0_8px_24px_rgba(92,33,53,0.25)]"
-        >
-          Book Your Visit →
-        </button>
+        <Button variant="primary" onClick={() => openBooking()} className="mt-5">
+          Book Your Visit
+        </Button>
       </div>
     </div>
   );
@@ -221,15 +242,14 @@ export function VisitModalContent() {
             {SALON_INFO.parking}
           </p>
         </div>
-        <div className="mt-6 flex h-36 items-center justify-center border border-border bg-bg-muted">
-          <div className="text-center">
-            <span className="font-display text-3xl text-border-strong opacity-60">
-              美
-            </span>
-            <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-dim">
-              Dempsey Hill, Singapore
-            </p>
-          </div>
+        <div className="mt-6 overflow-hidden border border-border">
+          <iframe
+            title="AURA Hair Space location map"
+            src="https://maps.google.com/maps?q=8D+Dempsey+Road+Singapore+249672&output=embed"
+            className="h-36 w-full grayscale opacity-90 transition-opacity duration-300 hover:opacity-100 sm:h-44"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
         </div>
       </section>
 
@@ -268,13 +288,9 @@ export function VisitModalContent() {
           </div>
         </section>
 
-        <button
-          type="button"
-          onClick={() => openBooking()}
-          className="w-full border border-gold/40 bg-gold/10 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-gold transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold/20 hover:shadow-[0_8px_24px_rgba(166,139,91,0.15)]"
-        >
-          Book Appointment →
-        </button>
+        <Button variant="gold-outline" fullWidth onClick={() => openBooking()}>
+          Book Appointment
+        </Button>
       </div>
     </div>
   );

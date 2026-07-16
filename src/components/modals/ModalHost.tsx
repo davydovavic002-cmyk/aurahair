@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import ModalShell from "@/components/modals/ModalShell";
 import {
   AboutModalContent,
@@ -17,6 +17,7 @@ import {
 } from "@/lib/modals";
 import { MASTERS } from "@/data/content";
 import { useUiShell } from "@/components/UiShellProvider";
+import { scheduleHeightReports } from "@/embed/portfolioEmbed";
 
 function renderContent(id: ModalId) {
   switch (id) {
@@ -46,6 +47,10 @@ function resolveMeta(id: ModalId) {
 export default function ModalHost() {
   const { setModalOpen } = useUiShell();
   const [active, setActive] = useState<ModalId | null>(null);
+  const lastActiveRef = useRef<ModalId | null>(null);
+
+  if (active) lastActiveRef.current = active;
+  const displayId = active ?? lastActiveRef.current;
 
   const syncFromHash = useCallback(() => {
     setActive(parseModalHash(window.location.hash));
@@ -59,6 +64,7 @@ export default function ModalHost() {
 
   useEffect(() => {
     setModalOpen(!!active);
+    if (active) scheduleHeightReports();
   }, [active, setModalOpen]);
 
   const close = useCallback(() => {
@@ -67,13 +73,13 @@ export default function ModalHost() {
     setActive(null);
   }, []);
 
-  if (!active) return null;
+  if (!displayId) return null;
 
-  const meta = resolveMeta(active);
+  const meta = resolveMeta(displayId);
 
   return (
     <ModalShell meta={meta} isOpen={!!active} onClose={close}>
-      {renderContent(active)}
+      {renderContent(displayId)}
     </ModalShell>
   );
 }

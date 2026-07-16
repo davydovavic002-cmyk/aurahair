@@ -1,3 +1,5 @@
+import Label from "@/components/ui/Label";
+
 interface SectionHeaderProps {
   step: string;
   title: string;
@@ -13,9 +15,7 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <div className={`mb-8 max-w-md sm:mb-10 ${className}`}>
-      <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-gold">
-        {step}
-      </p>
+      <Label variant="gold">{step}</Label>
       <h2 className="mt-2 font-display text-2xl font-light tracking-wide text-foreground sm:text-3xl">
         {title}
       </h2>
