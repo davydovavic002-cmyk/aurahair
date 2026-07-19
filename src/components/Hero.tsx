@@ -47,8 +47,8 @@ export default function Hero() {
 
   return (
     <section
-      className={`relative px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10 ${
-        embedded ? "min-h-0" : "min-h-screen"
+      className={`relative px-4 py-6 sm:px-6 sm:py-8 lg:min-h-screen lg:px-10 lg:py-10 ${
+        embedded ? "min-h-0" : "min-h-0"
       }`}
     >
       <div className="absolute inset-0 -z-10">
@@ -68,13 +68,13 @@ export default function Hero() {
         initial={reduced ? false : { opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className={`mx-auto flex max-w-[1280px] flex-col overflow-hidden rounded-lg bg-[var(--hero-panel)] shadow-elevated sm:rounded-[32px] lg:flex-row ${
+        className={`mx-auto flex max-w-[1280px] flex-col overflow-hidden rounded-lg bg-[var(--hero-panel)] shadow-elevated sm:rounded-[32px] lg:min-h-[720px] lg:flex-row ${
           embedded
-            ? "min-h-[680px] lg:min-h-0 lg:aspect-[16/10] lg:max-h-[720px]"
-            : "min-h-[calc(100vh-3rem)] sm:min-h-[calc(100vh-4rem)] lg:min-h-[720px]"
+            ? "min-h-0 lg:aspect-[16/10] lg:max-h-[720px]"
+            : "min-h-0 lg:min-h-[720px]"
         }`}
       >
-        <div className="flex w-full flex-col border-b border-border lg:w-[38%] lg:border-b-0 lg:border-r">
+        <div className="order-2 flex w-full min-h-0 flex-col lg:order-1 lg:w-[38%] lg:border-r lg:border-border">
           <div className="flex items-center justify-between px-5 pt-5 sm:px-6 sm:pt-6">
             <div>
               <p className="text-label text-dim">Step 1 · Find</p>
@@ -89,7 +89,7 @@ export default function Hero() {
           </div>
 
           <div
-            className={`flex flex-1 flex-col gap-3 overflow-y-auto px-5 py-4 scrollbar-hide sm:gap-3.5 sm:px-6 sm:py-5 ${
+            className={`flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-5 py-4 scrollbar-hide sm:gap-3.5 sm:px-6 sm:py-5 max-h-[46vh] sm:max-h-[50vh] lg:max-h-none ${
               embedded ? "lg:max-h-[600px]" : "lg:max-h-[calc(100vh-8rem)]"
             }`}
           >
@@ -115,8 +115,8 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative flex flex-1 flex-col px-6 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12">
-          <div className="pointer-events-none absolute right-6 top-16 hidden select-none font-display text-[5rem] leading-none text-border-strong opacity-40 sm:block lg:right-10 lg:top-20 lg:text-[6rem]">
+        <div className="relative order-1 flex flex-1 flex-col border-b border-border px-5 py-6 sm:px-8 sm:py-8 lg:order-2 lg:border-b-0 lg:px-12 lg:py-12">
+          <div className="pointer-events-none absolute right-4 top-12 hidden select-none font-display text-[4rem] leading-none text-border-strong opacity-40 sm:right-6 sm:top-16 sm:block sm:text-[5rem] lg:right-10 lg:top-20 lg:text-[6rem]">
             匠
           </div>
 
@@ -125,7 +125,7 @@ export default function Hero() {
           >
             {!embedded && (
               <nav
-                className="hidden flex-wrap gap-x-6 gap-y-2 sm:flex"
+                className="hidden flex-wrap gap-x-5 gap-y-2 md:flex"
                 aria-label="Main navigation"
               >
                 {NAV_LINKS.map((link) => (
@@ -139,10 +139,10 @@ export default function Hero() {
                 ))}
               </nav>
             )}
-            <ThemeToggle className={embedded ? "flex shrink-0" : "hidden sm:flex"} />
+            <ThemeToggle className={embedded ? "flex shrink-0" : "hidden md:flex"} />
           </div>
 
-          <div className="flex flex-1 flex-col items-center justify-center text-center">
+          <div className="flex flex-col items-center justify-center py-2 text-center sm:py-4 lg:flex-1">
             <motion.div
               initial="hidden"
               animate="visible"
@@ -179,7 +179,7 @@ export default function Hero() {
               <motion.div
                 custom={0.3}
                 variants={fadeUp}
-                className="mx-auto mt-8 flex max-w-xs items-center gap-2 text-label uppercase tracking-[0.2em] text-dim"
+                className="mx-auto mt-6 flex max-w-xs items-center gap-2 text-label uppercase tracking-[0.2em] text-dim sm:mt-8"
               >
                 <span>Studio</span>
                 <span className="h-px flex-1 bg-border" />
@@ -191,7 +191,7 @@ export default function Hero() {
               <motion.p
                 custom={0.32}
                 variants={fadeUp}
-                className="mt-8 text-label uppercase tracking-[0.2em] text-dim"
+                className="mt-6 text-label uppercase tracking-[0.2em] text-dim sm:mt-8"
               >
                 Browse stylists by expertise
               </motion.p>
@@ -217,7 +217,7 @@ export default function Hero() {
                 ))}
               </motion.div>
 
-              <motion.div custom={0.4} variants={fadeUp} className="relative mt-8">
+              <motion.div custom={0.4} variants={fadeUp} className="relative mt-6 sm:mt-8">
                 <Search
                   className="pointer-events-none absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
                   aria-hidden
@@ -238,7 +238,7 @@ export default function Hero() {
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: reduced ? 0 : 0.7 }}
-            className="mt-auto flex flex-col items-center gap-3 pt-10 text-center"
+            className="mt-6 flex flex-col items-center gap-3 pt-2 text-center sm:mt-8 sm:pt-4 lg:mt-auto lg:pt-10"
           >
             <Sparkles className="h-5 w-5 text-gold" aria-hidden />
             <p className="max-w-xs text-xs leading-relaxed text-muted">
